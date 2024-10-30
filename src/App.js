@@ -4,6 +4,8 @@ import RecipeCreate from "./RecipeCreate";
 import RecipeList from "./RecipeList";
 import RecipeData from "./RecipeData"
 
+//write consistent comments about handle groups
+
 function App() {
   const [recipes, setRecipes] = useState(RecipeData);
 
