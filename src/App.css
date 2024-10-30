@@ -44,7 +44,7 @@ td {
   text-align: center;
 }
 
-/* table */
+//table
 
 table {
   table-layout: fixed;
@@ -61,7 +61,6 @@ table {
   text-overflow: ellipsis;
 }
 
-/* Column Size for thead */
 
 
-/* Column size for tbody */
+
