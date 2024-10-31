@@ -1,7 +1,4 @@
-/**
-* This is the data that is initially loaded.
-* Please do not modify this file.
-*/
+//Test data for files.
 
 const RecipeData = [
   {
