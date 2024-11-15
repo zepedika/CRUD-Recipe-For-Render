@@ -6,14 +6,19 @@ import userEvent from "@testing-library/user-event";
 import '@testing-library/jest-dom/extend-expect'
 
 describe("App", () => {
+  
+  // Tests for the presence of form structure required to create a new recipe
   describe("includes necessary structure to create a recipe", () => {
-    
+
+    // Verifies that a form with the specified name attribute exists
     test('a form with name="create"', () => {
       const { container } = render(<App />);
       expect(container.querySelector('form[name="create" i]')).toBeTruthy();
     });
 
     describe("create form contains", () => {
+      // Tests for the existence of each required input field and button within the create form
+      
       test('an <input name="name">', () => {
         const { container } = render(<App />);
         const name = container.querySelector(
@@ -24,51 +29,54 @@ describe("App", () => {
 
       test('an <input name="cuisine">', () => {
         const { container } = render(<App />);
-        const name = container.querySelector(
+        const cuisine = container.querySelector(
           'form[name="create" i] input[name="cuisine" i]'
         );
-        expect(name).toBeTruthy();
+        expect(cuisine).toBeTruthy();
       });
       
       test('an <input name="photo">', () => {
         const { container } = render(<App />);
-        const name = container.querySelector(
+        const photo = container.querySelector(
           'form[name="create" i] input[name="photo" i]'
         );
-        expect(name).toBeTruthy();
+        expect(photo).toBeTruthy();
       });
       
       test('a <textarea name="ingredients">', () => {
         const { container } = render(<App />);
-        const textArea = container.querySelector(
+        const ingredients = container.querySelector(
           'form[name="create" i] textarea[name="ingredients" i]'
         );
-        expect(textArea).toBeTruthy();
+        expect(ingredients).toBeTruthy();
       });
       
       test('a <textarea name="preparation">', () => {
         const { container } = render(<App />);
-        const textArea = container.querySelector(
+        const preparation = container.querySelector(
           'form[name="create" i] textarea[name="preparation" i]'
         );
-        expect(textArea).toBeTruthy();
+        expect(preparation).toBeTruthy();
       });
       
       test('a <button type="submit">', () => {
         const { container } = render(<App />);
-        const selectbutton = container.querySelector(
+        const submitButton = container.querySelector(
           'form[name="create" i] button[type="submit" i]'
         );
-        expect(selectbutton).toBeTruthy();
+        expect(submitButton).toBeTruthy();
       });
-    }); 
+    });
   });
-  
+
+  // Tests for creating a new recipe entry and displaying it correctly
   describe("can create a new recipe that displays", () => {
 
+    // Sets up a new recipe entry before each test within this describe block
     beforeEach(() => {
       const { container } = render(<App />);
       
+      // Filling in form fields with test data
       const name = container.querySelector(
         'form[name="create" i] input[name="name" i]'
       );
@@ -90,6 +98,7 @@ describe("App", () => {
       fireEvent.change(ingredients, { target: { value: "1 avocado" } });
       fireEvent.change(preparation, { target: { value: "peel the avocado" } });
 
+      // Simulating form submission
       const submitButton = container.querySelector(
         'form[name="create" i] button[type="submit" i]'
       );
@@ -102,6 +111,7 @@ describe("App", () => {
       );
     });
     
+    // Test each part of the displayed recipe after creation  
     test("the name", () => {
       expect(screen.queryByText("Just an avocado")).toBeInTheDocument();
     });
@@ -123,7 +133,10 @@ describe("App", () => {
     });
   });
 
+  // Tests for verifying correct display of recipe data from RecipeData.js
   describe("loads and displays data in RecipeData.js correctly", () => {
+
+    // Ensures that the table structure is present in the document
     test("table has thead", () => {
       const { container } = render(<App />);
       const thead = container.querySelector('table thead th');
@@ -136,32 +149,39 @@ describe("App", () => {
       expect(tbody).toBeTruthy();
     });
 
+    // Confirms that the first row displays the correct recipe data from RecipeData.js
     test("Tuna Poke with Mango is displayed in the first row", () => {
       const { container } = render(<App />);
       const row = container.querySelector('table tbody tr');
       const content = within(row);
-      expect(content.getByText(RecipeData[0]["name"])).toBeInTheDocument();             expect(content.getByText(RecipeData[0]["cuisine"])).toBeInTheDocument();
+      expect(content.getByText(RecipeData[0]["name"])).toBeInTheDocument();
+      expect(content.getByText(RecipeData[0]["cuisine"])).toBeInTheDocument();
       expect(content.getByRole('img')).toHaveAttribute('src', RecipeData[0]["photo"]);
       expect(content.getByText(RecipeData[0]["ingredients"])).toBeInTheDocument();
       expect(content.getByText(RecipeData[0]["preparation"])).toBeInTheDocument();
     });
 
+    // Tests for the presence of a delete button for each recipe entry
     test("delete button with name='delete' is displayed", () => {
       const { container } = render(<App />);
       const deleteButton = container.querySelector(
         'table tbody td button[name="delete" i]'
       );
-       expect(deleteButton).toBeTruthy();
+      expect(deleteButton).toBeTruthy();
     });
-    
   });
 
-describe("deletes", () => {
+  // Tests for deleting a recipe entry by simulating a delete button click
+  describe("deletes", () => {
+
+    // Checks that the recipe is removed from the document after delete button click
     test("recipe is deleted when the delete button is clicked", () => {
       const { container } = render(<App />);
       const row = container.querySelector('table tbody tr');
       const content = within(row);
       expect(content.getByText(/Tuna Poke with Mango/)).toBeInTheDocument();
+      
+      // Simulating delete button click
       const deleteButton = content.getByText(/delete/i);
       fireEvent(
         deleteButton,
@@ -170,6 +190,8 @@ describe("deletes", () => {
           cancelable: true,
         })
       );
+
+      // Ensures the recipe no longer appears in the document
       const newRow = container.querySelector('table tbody tr');
       const newContent = within(newRow);
       expect(newContent.queryByText(/Tuna Poke with Mango/)).toBeNull();
