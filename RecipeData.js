@@ -1,7 +1,8 @@
-/**
-* This is the data that is initially loaded.
-* Please do not modify this file.
-*/
+/*
+RecipeData
+This file contains a static dataset of recipes intended to provide sample data for testing and development purposes. Please do not modify this file directly to ensure consistency in testing and example data.
+ */
+
 
 const RecipeData = [
   {
