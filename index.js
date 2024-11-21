@@ -1,5 +1,3 @@
-//add header with name/overall intro. 
-// 
 
 import React from "react";
 import ReactDOM from "react-dom/client";
