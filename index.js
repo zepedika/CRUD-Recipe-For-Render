@@ -7,7 +7,6 @@
  * demonstrates proficiency in developing interactive web applications with CRUD functionality, emphasizing 
  * intuitive design and seamless user experience.
  *
- * Technology Stack: JavaScript, React, HTML, CSS
  */
 
 import React from "react";
